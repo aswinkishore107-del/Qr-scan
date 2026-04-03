@@ -1,0 +1,23 @@
+name: qr_scan_store
+description: QR Scan & Store Mobile Application
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mobile_scanner: ^3.5.5       # QR / Barcode scanner
+  http: ^1.1.0                  # HTTP requests to backend
+  intl: ^0.18.1                 # Date formatting
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

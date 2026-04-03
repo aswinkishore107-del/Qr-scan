@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Test Page</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    p.sub { color: #aaa; margin-bottom: 30px; font-size: 14px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+    .card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card .qr { background: #fff; border-radius: 12px; padding: 16px; display: inline-block; margin-bottom: 16px; }
+    .card .label { font-size: 13px; font-weight: 600; color: #4fc3f7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .card .value { font-size: 14px; color: #ccc; word-break: break-all; }
+    .instructions {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px 28px;
+      max-width: 500px;
+      text-align: left;
+    }
+    .instructions h3 { color: #4fc3f7; margin-bottom: 10px; }
+    .instructions li { color: #bbb; margin-bottom: 6px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>📱 QR Code Test Page</h1>
+  <p class="sub">Open this page on your laptop → Scan with your phone app</p>
+
+  <div class="grid" id="qrGrid"></div>
+
+  <div class="instructions">
+    <h3>📋 How to Test</h3>
+    <ol>
+      <li>Open this page on your <b>laptop browser</b></li>
+      <li>Point your <b>phone camera</b> (QR Scanner app) at any QR code above</li>
+      <li>The app should show <b>"Scan saved!"</b> ✅</li>
+      <li>Check <b>MySQL Workbench</b> → <code>SELECT * FROM scans;</code></li>
+    </ol>
+  </div>
+
+  <script>
+    const testData = [
+      { label: 'URL', value: 'https://www.google.com' },
+      { label: 'URL', value: 'https://en.wikipedia.org' },
+      { label: 'Text', value: 'Hello from QR Scanner Test!' },
+      { label: 'Email', value: 'mailto:test@example.com' },
+      { label: 'Phone', value: 'tel:+919876543210' },
+      { label: 'JSON Data', value: '{"name":"Dharshni","project":"QR Scanner"}' },
+    ];
+
+    const grid = document.getElementById('qrGrid');
+
+    testData.forEach(item => {
+      const qr = qrcode(0, 'M');
+      qr.addData(item.value);
+      qr.make();
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="qr">${qr.createImgTag(5, 0)}</div>
+        <div class="label">${item.label}</div>
+        <div class="value">${item.value}</div>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
